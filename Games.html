@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intergalactic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Kode Mono', monospace;
+            background-color: #0D0727;
+            color: white;
+        }
+
+        .top-panel {
+            position: relative;
+            background-color: #1A0E4E;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .button {
+            padding: 8px 16px;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-family: 'Roboto Condensed', sans-serif; /* Updated font-family */
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.3s;
+        }
+
+        .button:hover {
+            color: #AFAFAF;
+        }
+
+        .square-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Changed grid to have 4 columns */
+            grid-gap: 20px; /* Added space between squares */
+            justify-content: center;
+            margin-top: 20px;
+            padding: 20px;
+            max-height: calc(100vh - 200px); /* Set maximum height to fit the screen minus the top panel */
+            overflow-y: auto; /* Make it scrollable */
+        }
+
+        .square {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 100%;
+            height: 350px; /* Adjusted height */
+            background-image: url('Logo.png'); /* Updated background image */
+            background-size: cover;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .square-text {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 4px;
+            border: none;
+            background-color: #3D0F70;
+            color: white;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-panel">
+        <a href="index.html" class="button"><h1>Intergalactic</h1></a>
+        <form id="searchForm">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button type="submit" class="button">Search</button>
+        </form>
+        <div class="button-container">
+            <a href="Games.html" class="button">Games</a>
+            <a href="AI.html" class="button">AI</a>
+            <a href="Apps.html" class="button">Apps</a>
+            <a href="Settings.html" class="button">Settings</a>
+        </div>
+    </div>
+
+    <!-- Rows of squares outside of top panel -->
+    <div class="square-container" id="squareContainer">
+        <!-- Squares will be added dynamically here -->
+    </div>
+
+    <script>
+        // Data for squares (names and links)
+        const squareData = [
+            { name: "Request", link: "https://docs.google.com/forms/d/e/1FAIpQLSfkVXsmv22DVpfjoeMlgE69d7vhon4cUrYfLL8JVWQsODHYAQ/viewform?usp=sf_link" },
+            { name: "Geforce Now", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-wuw%2Cntific.aoo%2Fgn%2Fuq%2Feedopcg-lou%2F" },
+            { name: "Now gg", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-nmw%2Cge%2Fcprs-fnirlkng-qtwdkoq%2F71503%2Frara%2Fs%2Fdmnwtgrka%2Chvmn" },
+            { name: "Eggy car", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-eeg%7B-aap.eivhwb%2Cim%2F" },
+            { name: "Monkey Mart", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-mmnie%7B-oapt%2Cim%2F" },
+            { name: "Chess.com", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-wuw%2Ccjeqs%2Ccmm-" },
+            { name: "Roblox (now gg)", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-nmw%2Cge%2Fcprs-rmbnoz-aoppmrctkol%2F7369-rmbnoz.jtol" },
+            { name: "Crazy games", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-wuw%2Ccpaxyeaoeq.aoo%2F" },
+            { name: "Poki", link: "https://search-intergalactic.koyeb.app/uv/service/hvtrs8%2F-pmkk.aoo%2F" }
+        ];
+
+        // Function to generate square elements
+        function generateSquares(data) {
+            const squareContainer = document.getElementById("squareContainer");
+            squareContainer.innerHTML = ""; // Clear previous content
+
+            data.forEach(square => {
+                const squareElement = document.createElement("a");
+                squareElement.href = square.link;
+                squareElement.className = "square";
+
+                const squareText = document.createElement("div");
+                squareText.className = "square-text";
+                squareText.textContent = square.name;
+
+                squareElement.appendChild(squareText);
+                squareContainer.appendChild(squareElement);
+            });
+        }
+
+        // Initial generation of squares
+        generateSquares(squareData);
+
+        // Search functionality
+        const searchForm = document.getElementById("searchForm");
+        const searchInput = document.getElementById("searchInput");
+
+        searchForm.addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const filteredData = squareData.filter(square => square.name.toLowerCase().includes(searchTerm));
+            generateSquares(filteredData);
+        });
+    </script>
+</body>
+</html>
